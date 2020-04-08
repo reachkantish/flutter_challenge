@@ -66,53 +66,44 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Stack(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: new Stack(
                 alignment: Alignment.topCenter,
                 children: <Widget>[
-                  Container(
-                    height: 152,
-                    color: Color(0xff220ff2),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 35,
+                  new MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    home: Container(
+                      color: Colors.white,
+                      child: CustomPaint(
+                        painter: CurvePainter(),
                       ),
-                      ClipOval(
-                        child: Container(
-                          color: Color(0x2ff220ff2),
-                          height: 240,
-                          width: MediaQuery.of(context).size.width * 2,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                   Column(
                     children: <Widget>[
                       SizedBox(
                         height: 225,
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 50),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            CircleAvatar(
-                              radius: 30,
-                              child: Icon(Icons.arrow_back),
-                              backgroundColor: Colors.blueAccent,
-                            ),
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.blueAccent,
-                              child: Icon(Icons.arrow_forward),
-                            ),
-                          ],
-                        ),
-                      ),
+//                      Container(
+//                        padding: EdgeInsets.symmetric(horizontal: 50),
+//                        child: Row(
+//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                          children: <Widget>[
+//                            CircleAvatar(
+//                              radius: 30,
+//                              child: Icon(Icons.arrow_back),
+//                              backgroundColor: Colors.blueAccent,
+//                            ),
+//                            CircleAvatar(
+//                              radius: 30,
+//                              backgroundColor: Colors.blueAccent,
+//                              child: Icon(Icons.arrow_forward),
+//                            ),
+//                          ],
+//                        ),
+//                      ),
                     ],
                   ),
                   CarouselSlider.builder(
@@ -134,71 +125,79 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 35,
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "Explore More",
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
+            ),
+            Expanded(
+              child: new ListView(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                children: <Widget>[
+                  SizedBox(
+                    height: 35,
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 60),
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  color: Color(0xffebebeb),
-                  borderRadius: BorderRadius.circular(35),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Search",
-                          hintStyle: TextStyle(
-                            color: Color(0xff220ff2),
-                            fontSize: 17,
-                          ),
-                          border: InputBorder.none,
-                        ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Explore More",
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Icon(
-                      Icons.search,
-                      color: Color(0xff220ff2),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 60),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Color(0xffebebeb),
+                      borderRadius: BorderRadius.circular(35),
                     ),
-                  ],
-                ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: "Search",
+                              hintStyle: TextStyle(
+                                color: Color(0xff220ff2),
+                                fontSize: 17,
+                              ),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.search,
+                          color: Color(0xff220ff2),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 220,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    margin: EdgeInsets.symmetric(vertical: 30),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: bottomTileData.length,
+                        itemBuilder: (context, index) {
+                          return BottomTile(
+                            imgPath: bottomTileData[index].imgPath,
+                            title: bottomTileData[index].title,
+                            price: bottomTileData[index].price,
+                          );
+                        }),
+                  ),
+                ],
               ),
-              Container(
-                height: 220,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                margin: EdgeInsets.symmetric(vertical: 30),
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: bottomTileData.length,
-                    itemBuilder: (context, index) {
-                      return BottomTile(
-                        imgPath: bottomTileData[index].imgPath,
-                        title: bottomTileData[index].title,
-                        price: bottomTileData[index].price,
-                      );
-                    }),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: Container(
@@ -422,4 +421,39 @@ class CarouselTile extends StatelessWidget {
       ),
     );
   }
+}
+
+class CurvePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint();
+    paint.color = Color(0xff220ff2);
+    paint.style = PaintingStyle.fill; // Change this to fill
+
+    var path = Path();
+
+    path.moveTo(0, size.height * 0.75);
+    path.quadraticBezierTo(
+        size.width / 2, size.height * 1.2, size.width, size.height * 0.75);
+    path.lineTo(size.width, 0);
+    path.lineTo(0, 0);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class detailsData {
+  String imgPath;
+  String family;
+  String ageRange;
+  String price;
+  String title;
+
+  detailsData(
+      {this.imgPath, this.family, this.ageRange, this.price, this.title});
 }
